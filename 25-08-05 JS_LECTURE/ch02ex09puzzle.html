@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>짝 맞추기 게임</title>
+    <style>
+        td {
+            width: 100px;
+            height: 100px;
+            border: 1px solid gray;
+            text-align: center;
+            font-size: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>짝 맞추기 게임</h1>
+    <table>
+        <tr>
+            <td data-ch="A">.</td>
+            <td data-ch="B">.</td>
+        </tr>
+        <tr>
+            <td data-ch="B">.</td>
+            <td data-ch="A">.</td>
+        </tr>
+    </table>
+
+    <script>
+        var tds = document.querySelectorAll("td");
+        var first = null; // 첫 번째 클릭한 칸
+        var second = null; // 두 번째 클릭한 칸
+
+        for (var i = 0; i < tds.length; i++) {
+            tds[i].onclick = function() {
+                // 이미 글자가 보이는 칸이면 클릭 무시
+                if (this.textContent !== ".") return;
+
+                // 클릭하면 글자 보여주기
+                this.textContent = this.getAttribute("data-ch");
+
+                if (first === null) {
+                    first = this; // 첫 번째 칸 저장
+                } else {
+                    second = this; // 두 번째 칸 저장
+
+                    if (first.getAttribute("data-ch") === second.getAttribute("data-ch")) {
+                        // 같으면 그대로 두기
+                        first = null;
+                        second = null;
+                    } else {
+                        // 다르면 1초 후 다시 가리기
+                        setTimeout(function() {
+                            first.textContent = ".";
+                            second.textContent = ".";
+                            first = null;
+                            second = null;
+                        }, 1000);
+                    }
+                }
+            };
+        }
+    </script>
+</body>
+</html>
